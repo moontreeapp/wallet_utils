@@ -4,7 +4,7 @@ class Derivation {
   static const externalNumber = 0;
   static const internalNumber = 1;
 
-  static String getDerivationPath(
+  static String getPath(
     int index, {
     bool mainnet = true,
     bool external = true,
