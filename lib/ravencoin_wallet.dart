@@ -17,4 +17,5 @@ export 'src/wallets/kp_wallet.dart';
 export 'src/wallets/hd_wallet.dart';
 
 export 'src/utilities/derivation.dart';
+export 'src/utilities/derive.dart';
 export 'src/utilities/validation.dart';
