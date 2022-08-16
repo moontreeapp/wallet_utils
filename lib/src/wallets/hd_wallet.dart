@@ -58,6 +58,15 @@ class HDWallet extends WalletBase {
     return HDWallet(bip32: bip32, p2pkh: p2pkh, network: network);
   }
 
+  Map<String, HDWallet> deriveNextHD(String path) {
+    final pathBip32 = _bip32.deriveNextHd(path);
+    final bip32 = pathBip32.values.first;
+    final subPath = pathBip32.keys.first;
+    final p2pkh = new P2PKH(
+        data: new PaymentData(pubkey: bip32.publicKey), network: network);
+    return {subPath: HDWallet(bip32: bip32, p2pkh: p2pkh, network: network)};
+  }
+
   HDWallet derive(int index) {
     final bip32 = _bip32.derive(index);
     final p2pkh = new P2PKH(
@@ -99,5 +108,28 @@ class HDWallet extends WalletBase {
   bool verify({required String message, required Uint8List signature}) {
     Uint8List messageHash = magicHash(message);
     return _bip32.verify(messageHash, signature);
+  }
+}
+
+extension DeriveExtension on bip32.BIP32 {
+  Map<String, bip32.BIP32> deriveNextHd(String path) {
+    final regex = new RegExp(r"^(m\/)?(\d+'?\/)*\d+'?$");
+    if (!regex.hasMatch(path)) throw new ArgumentError("Expected BIP32 Path");
+    List<String> splitPath = path.split("/");
+    if (splitPath[0] == "m") {
+      if (parentFingerprint != 0)
+        throw new ArgumentError("Expected master, got child");
+      splitPath = splitPath.sublist(1);
+    }
+    int index;
+    String indexStr = splitPath.first;
+    String subPath = 'm/${splitPath.sublist(1).join('/')}';
+    if (indexStr.substring(indexStr.length - 1) == "'") {
+      index = int.parse(indexStr.substring(0, indexStr.length - 1));
+      return {subPath: deriveHardened(index)};
+    } else {
+      index = int.parse(indexStr);
+      return {subPath: derive(index)};
+    }
   }
 }
