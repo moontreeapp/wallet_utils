@@ -43,6 +43,7 @@ class Transaction {
         size: virtualSize(),
         rate: (rate ?? goal?.rate ?? TxGoals.hardRelayFee),
       );
+
   static int feeCalculation({required int size, required double rate}) =>
       (size * rate).ceil();
 
