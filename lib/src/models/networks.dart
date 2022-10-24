@@ -172,6 +172,73 @@ const testnet = NetworkType(
         issueRestricted: 150000000000,
         addTag: 10000000));
 
+// Evrmore Mainnet
+const evrmoreMainnet = NetworkType(
+    messagePrefix: '\x18Evrmore Signed Message:\n', // check
+    bech32: 'ev', // placeholder
+    bip32: Bip32Type(public: 0x0488b21e, private: 0x0488ade4), // same
+    pubKeyHash: 33, // updated
+    scriptHash: 92, // updated
+    wif: 0x80, // same
+    derivationAccountPath: "m/44'/175'/0'", // same
+    burnAddresses: BurnAddress(
+        // updated
+        issueMain: 'EXissueAssetXXXXXXXXXXXXXXXXYiYRBD',
+        reissue: 'EXReissueAssetXXXXXXXXXXXXXXY1ANQH',
+        issueSub: 'EXissueSubAssetXXXXXXXXXXXXXWW1ASo',
+        issueUnique: 'EXissueUniqueAssetXXXXXXXXXXTZjZJ5',
+        issueMessage: 'EXissueMsgChanneLAssetXXXXXXXD3mRa',
+        issueQualifier: 'EXissueQuaLifierXXXXXXXXXXXXW5Zxyf',
+        issueSubQualifier: 'EXissueSubQuaLifierXXXXXXXXXUgTjtu',
+        issueRestricted: 'EXissueRestrictedXXXXXXXXXXXZZMynb',
+        addTag: 'EXaddTagBurnXXXXXXXXXXXXXXXXb5HLXh',
+        burn: 'EXBurnXXXXXXXXXXXXXXXXXXXXXXZ8ZjfN'),
+    burnAmounts: BurnAmount(
+        // same
+        issueMain: 50000000000,
+        reissue: 10000000000,
+        issueSub: 10000000000,
+        issueUnique: 500000000,
+        issueMessage: 10000000000,
+        issueQualifier: 100000000000,
+        issueSubQualifier: 10000000000,
+        issueRestricted: 150000000000,
+        addTag: 10000000));
+
+// Evrmore Testnet
+const evrmoreTestnet = NetworkType(
+    messagePrefix: '\x18Evrmore Signed Message:\n', // same
+    bech32: 'tr', // same
+    bip32: Bip32Type(public: 0x043587cf, private: 0x04358394), //same
+    pubKeyHash: 0x6f, // same
+    scriptHash: 0xc4, // same
+    wif: 0xef, // same
+    derivationAccountPath: "m/44'/1'/0'", //same
+    burnAddresses: BurnAddress(
+        // same
+        issueMain: 'n1issueAssetXXXXXXXXXXXXXXXXWdnemQ',
+        reissue: 'n1ReissueAssetXXXXXXXXXXXXXXWG9NLd',
+        issueSub: 'n1issueSubAssetXXXXXXXXXXXXXbNiH6v',
+        issueUnique: 'n1issueUniqueAssetXXXXXXXXXXS4695i',
+        issueMessage: 'n1issueMsgChanneLAssetXXXXXXT2PBdD',
+        issueQualifier: 'n1issueQuaLifierXXXXXXXXXXXXUysLTj',
+        issueSubQualifier: 'n1issueSubQuaLifierXXXXXXXXXYffPLh',
+        issueRestricted: 'n1issueRestrictedXXXXXXXXXXXXZVT9V',
+        addTag: 'n1addTagBurnXXXXXXXXXXXXXXXXX5oLMH',
+        burn: 'n1BurnXXXXXXXXXXXXXXXXXXXXXXU1qejP'),
+    burnAmounts: BurnAmount(
+        // same
+        issueMain: 50000000000,
+        reissue: 10000000000,
+        issueSub: 10000000000,
+        issueUnique: 500000000,
+        issueMessage: 10000000000,
+        issueQualifier: 100000000000,
+        issueSubQualifier: 10000000000,
+        issueRestricted: 150000000000,
+        addTag: 10000000));
+
+// seemingly unused so not adding evrmore to it:
 const networks = {0x80: mainnet, 0xef: testnet};
 
 // Used for some legacy tests
