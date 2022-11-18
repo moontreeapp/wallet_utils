@@ -1,7 +1,13 @@
 import 'dart:typed_data';
 import 'dart:math';
 
-const SATOSHI_MAX = 21 * 1e14;
+//const SATOSHI_MAX = 21 * 1e14;
+//21,000,000.00000000
+//2,100,000,000,000,000
+//->
+const SATOSHI_MAX = 21 * 1e17;
+//21,000,000,000.00000000
+//2,100,000,000,000,000,000
 
 bool isShatoshi(int value) {
   return isUint(value, 53) && value <= SATOSHI_MAX;
