@@ -39,9 +39,9 @@ class Transaction {
   List<Output> outs = [];
   Transaction();
 
-  int fee({double? rate, TxGoal? goal}) => feeCalculation(
+  int fee({double? rate, FeeRate? goal}) => feeCalculation(
         size: virtualSize(),
-        rate: (rate ?? goal?.rate ?? TxGoals.hardRelayFee),
+        rate: (rate ?? goal?.rate ?? FeeRate.hardRelayFee),
       );
 
   static int feeCalculation({required int size, required double rate}) =>
