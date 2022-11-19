@@ -572,7 +572,7 @@ class Input {
     if (this.sequence != null && !isUint(this.sequence!, 32))
       throw new ArgumentError('Invalid input sequence');
     if (this.value != null && !isShatoshi(this.value!))
-      throw ArgumentError('Invalid ouput value');
+      throw ArgumentError('Invalid output value');
   }
 
   factory Input.expandInput(Uint8List? scriptSig, List<Uint8List?> witness,
@@ -652,7 +652,7 @@ class Output {
       this.signatures,
       this.valueBuffer}) {
     if (value != null && !isShatoshi(value!))
-      throw ArgumentError('Invalid ouput value');
+      throw ArgumentError('Invalid output value');
   }
 
   factory Output.expandOutput(Uint8List? script, [Uint8List? ourPubKey]) {

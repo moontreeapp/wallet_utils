@@ -8,9 +8,11 @@ import 'dart:math';
 const SATOSHI_MAX = 21 * 1e17;
 //21,000,000,000.00000000
 //2,100,000,000,000,000,000
+//    9,007,199,254,740,991  // isUint(value, 53) < SATOSHI_MAX
+//
 
 bool isShatoshi(int value) {
-  return isUint(value, 53) && value <= SATOSHI_MAX;
+  return /*isUint(value, 53) &&*/ value <= SATOSHI_MAX;
 }
 
 bool isUint(int value, int bit) {
