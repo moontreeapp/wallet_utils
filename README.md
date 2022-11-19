@@ -1,8 +1,8 @@
 <a href="https://pub.dartlang.org/packages/ravencoin"><img alt="pub version" src="https://img.shields.io/pub/v/ravencoin.svg?style=flat-square"></a>
 
-# ravencoin
+# wallet_utils
 
-A dart Ravencoin library, based on [bitcoin_flutter](https://github.com/dart-bitcoin/bitcoin_flutter) and inspired by [bitcoinjs](https://github.com/bitcoinjs/bitcoinjs-lib).
+A dart Ravencoin library, that is easily expandable for many utxo-based chains, based on [bitcoin_flutter](https://github.com/dart-bitcoin/bitcoin_flutter) and inspired by [bitcoinjs](https://github.com/bitcoinjs/bitcoinjs-lib).
 
 Released under the terms of the [MIT LICENSE](LICENSE).
 
