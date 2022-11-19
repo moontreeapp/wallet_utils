@@ -1,5 +1,4 @@
-import 'package:ravencoin_wallet/ravencoin_wallet.dart'
-    show HDWallet, mainnet, testnet;
+import 'package:wallet_utils/wallet_utils.dart' show HDWallet, mainnet, testnet;
 
 class Derive {
   static HDWallet walletFromPubkey(String pubkey, {bool useMainet = false}) =>

@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:ravencoin_wallet/src/validate.dart';
+import 'package:wallet_utils/src/validate.dart';
 
 main() {
   group('name', () {

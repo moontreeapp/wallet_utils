@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:ravencoin_wallet/ravencoin_wallet.dart';
+import 'package:wallet_utils/wallet_utils.dart';
 import 'package:test/test.dart';
 import 'package:hex/hex.dart';
 

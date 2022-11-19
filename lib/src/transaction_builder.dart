@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:bs58check/bs58check.dart' as bs58check;
 import 'package:hex/hex.dart';
-import 'package:ravencoin_wallet/src/utils/constants/op.dart';
+import 'package:wallet_utils/src/utils/constants/op.dart';
 
 import 'utils/script.dart' as bscript;
 import 'ecpair.dart';

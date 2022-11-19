@@ -4,10 +4,9 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:convert/convert.dart' show hex;
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:ravencoin_wallet/src/utilities/derivation.dart';
-import 'package:ravencoin_wallet/src/models/networks.dart' as network;
-import 'package:ravencoin_wallet/ravencoin_wallet.dart'
-    show Address, ECPair, KPWallet;
+import 'package:wallet_utils/src/utilities/derivation.dart';
+import 'package:wallet_utils/src/models/networks.dart' as network;
+import 'package:wallet_utils/wallet_utils.dart' show Address, ECPair, KPWallet;
 
 // https://github.com/RavenProject/Ravencoin/blob/master/src/assets/assets.cpp
 

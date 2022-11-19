@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:hex/hex.dart';
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:ravencoin_wallet/src/fee.dart';
+import 'package:wallet_utils/src/fee.dart';
 
 import 'payments/index.dart' show PaymentData;
 import 'payments/p2pkh.dart' show P2PKH;

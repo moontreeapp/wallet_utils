@@ -5,10 +5,10 @@ import 'dart:typed_data';
 import 'package:test/test.dart';
 import 'package:hex/hex.dart';
 
-import 'package:ravencoin_wallet/src/payments/index.dart' show PaymentData;
-import 'package:ravencoin_wallet/src/payments/p2pkh.dart';
-import 'package:ravencoin_wallet/src/utils/script.dart' as bscript;
-import 'package:ravencoin_wallet/src/models/networks.dart';
+import 'package:wallet_utils/src/payments/index.dart' show PaymentData;
+import 'package:wallet_utils/src/payments/p2pkh.dart';
+import 'package:wallet_utils/src/utils/script.dart' as bscript;
+import 'package:wallet_utils/src/models/networks.dart';
 
 main() {
   final fixtures = json.decode(

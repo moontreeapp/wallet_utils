@@ -1,3 +1,8 @@
+## 3.0.0
+
+- added support for Evrmore chain
+- Changed package name from ravencoin_wallet to wallet_utils
+
 ## 2.1.0
 
 - Change default transaction version to 1 when using TransactionBuilder

@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:ravencoin_wallet/ravencoin_wallet.dart';
+import 'package:wallet_utils/wallet_utils.dart';
 
 void main() {
   test('totalFeeByBytes', () {
