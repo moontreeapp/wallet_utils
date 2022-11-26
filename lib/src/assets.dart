@@ -8,16 +8,33 @@ import 'utils/script.dart' as bscript;
 import 'utils/constants/op.dart';
 import 'validate.dart';
 
-const List<int> RVN_rvn = [0x72, 0x76, 0x6e];
-const int RVN_t = 0x74;
-const int RVN_q = 0x71;
-const int RVN_o = 0x6F;
-const int RVN_r = 0x72;
+const List<int> ASCII_rvn = [0x72, 0x76, 0x6e];
+const List<int> ASCII_evr = [0x65, 0x76, 0x72];
+const int ASCII_t = 0x74;
+const int ASCII_q = 0x71;
+const int ASCII_o = 0x6F;
+const int ASCII_r = 0x72;
+
+List<int> _getChainASCII(String chainName) {
+  switch (chainName.toLowerCase()) {
+    case 'ravencoin':
+      return ASCII_rvn;
+    case 'evrmore':
+      return ASCII_evr;
+    default:
+      return [];
+  }
+}
 
 // standard_script should have no OP_PUSH
 Uint8List generateAssetTransferScript(
-    Uint8List standardScript, String assetName, int amount,
-    {Uint8List? ipfsData, int? expireEpoch}) {
+  Uint8List standardScript,
+  String chainName,
+  String assetName,
+  int amount, {
+  Uint8List? ipfsData,
+  int? expireEpoch,
+}) {
   // ORIGINAL | OP_RVN_ASSET | OP_PUSH  ( b'rvnt' | var_int (assetName) | sats | ipfsData? ) | OP_DROP
   if (!isAssetNameGood(assetName)) {
     throw new ArgumentError('Invalid asset name');
@@ -36,8 +53,8 @@ Uint8List generateAssetTransferScript(
   amountData.setUint64(0, amount, Endian.little);
 
   final internal_builder = new BytesBuilder();
-  internal_builder.add(RVN_rvn);
-  internal_builder.addByte(RVN_t);
+  internal_builder.add(_getChainASCII(chainName));
+  internal_builder.addByte(ASCII_t);
   internal_builder.addByte(assetName.length);
   internal_builder.add(utf8.encode(assetName));
   internal_builder.add(amountData.buffer.asUint8List());
@@ -60,8 +77,15 @@ Uint8List generateAssetTransferScript(
   return internal_builder.toBytes();
 }
 
-Uint8List generateAssetCreateScript(Uint8List standardScript, String assetName,
-    int amount, int divisibility, bool reissuable, Uint8List? ipfsData) {
+Uint8List generateAssetCreateScript(
+  Uint8List standardScript,
+  String chainName,
+  String assetName,
+  int amount,
+  int divisibility,
+  bool reissuable,
+  Uint8List? ipfsData,
+) {
   // standardScript is where the new asset is sent
   if (!isAssetNameGood(assetName)) {
     throw new ArgumentError('Invalid asset name');
@@ -80,8 +104,8 @@ Uint8List generateAssetCreateScript(Uint8List standardScript, String assetName,
   amountData.setUint64(0, amount, Endian.little);
 
   final internal_builder = new BytesBuilder();
-  internal_builder.add(RVN_rvn);
-  internal_builder.addByte(RVN_q);
+  internal_builder.add(_getChainASCII(chainName));
+  internal_builder.addByte(ASCII_q);
   internal_builder.addByte(assetName.length);
   internal_builder.add(utf8.encode(assetName));
   internal_builder.add(amountData.buffer.asUint8List());
@@ -107,15 +131,18 @@ Uint8List generateAssetCreateScript(Uint8List standardScript, String assetName,
 
 // assetName must not including the ! only the actual asset name.
 Uint8List generateAssetOwnershipScript(
-    Uint8List standardScript, String assetName) {
+  Uint8List standardScript,
+  String chainName,
+  String assetName,
+) {
   // standardScript is where the new asset is sent
   if (!isAssetNameGood(assetName)) {
     throw new ArgumentError('Invalid asset name');
   }
 
   final internal_builder = new BytesBuilder();
-  internal_builder.add(RVN_rvn);
-  internal_builder.addByte(RVN_o);
+  internal_builder.add(_getChainASCII(chainName));
+  internal_builder.addByte(ASCII_o);
   internal_builder.addByte(assetName.length + 1);
   internal_builder.add(utf8.encode(assetName + '!'));
 
@@ -132,6 +159,7 @@ Uint8List generateAssetOwnershipScript(
 
 Uint8List generateAssetReissueScript(
     Uint8List standardScript,
+    String chainName,
     String assetName,
     int current_amount,
     int amount_to_add,
@@ -162,8 +190,8 @@ Uint8List generateAssetReissueScript(
   amountData.setUint64(0, amount_to_add, Endian.little);
 
   final internal_builder = new BytesBuilder();
-  internal_builder.add(RVN_rvn);
-  internal_builder.addByte(RVN_r);
+  internal_builder.add(_getChainASCII(chainName));
+  internal_builder.addByte(ASCII_r);
   internal_builder.addByte(assetName.length);
   internal_builder.add(utf8.encode(assetName));
   internal_builder.add(amountData.buffer.asUint8List());

@@ -24,6 +24,7 @@ main() {
 
       var data = assets.generateAssetTransferScript(
           decode('76a914f05325e90d5211def86b856c9569e5480820129088ac'),
+          'ravencoin',
           'SCAMCOIN',
           1 * ONE_SAT);
       expect(encode(data),
@@ -39,6 +40,7 @@ main() {
       //https://rvnt.cryptoscope.io/api/getrawtransaction/?txid=aa093a7ac5e8cd1d47ec6354d6df134e7ebfd61e2f0d402e11e6cf7cb3f827bf&decode=1
       var data = assets.generateAssetTransferScript(
           decode('76a9140a6e44c0b7a5da84c38ed2900c6b6ce3b8c2e27a88ac'),
+          'ravencoin',
           'MOONTREE1',
           (0.9 * ONE_SAT).toInt(),
           ipfsData:
@@ -55,8 +57,8 @@ main() {
       //https://rvn.cryptoscope.io/api/getrawtransaction/?txid=bae95f349f15effe42e75134ee7f4560f53462ddc19c47efdd03f85ef4ab8f40&decode=1
       var script = Address.addressToOutputScript(
           'RXBurnXXXXXXXXXXXXXXXXXXXXXXWUo9FV', mainnet);
-      var data =
-          assets.generateAssetTransferScript(script!, 'SCAMCOIN', 1 * ONE_SAT);
+      var data = assets.generateAssetTransferScript(
+          script!, 'ravencoin', 'SCAMCOIN', 1 * ONE_SAT);
       expect(encode(data),
           '76a914f05325e90d5211def86b856c9569e5480820129088acc01572766e74085343414d434f494e00e1f5050000000075');
       // To add asset:
@@ -68,7 +70,9 @@ main() {
       //76a9140bd39e43ac5c47c34fea1a10f570dcdd5d7cdaa488acc00972766e6f044a41582175
       //https://rvn.cryptoscope.io/api/getrawtransaction/?txid=8eefce8d264d723b6b8f3cf87bcb400a009d01c2771f94e5cc07af252851aa96&decode=1
       var data = assets.generateAssetOwnershipScript(
-          decode('76a9140bd39e43ac5c47c34fea1a10f570dcdd5d7cdaa488ac'), 'JAX');
+          decode('76a9140bd39e43ac5c47c34fea1a10f570dcdd5d7cdaa488ac'),
+          'ravencoin',
+          'JAX');
       expect(encode(data),
           '76a9140bd39e43ac5c47c34fea1a10f570dcdd5d7cdaa488acc00972766e6f044a41582175');
     });
@@ -82,6 +86,7 @@ main() {
       //https://rvn.cryptoscope.io/api/getrawtransaction/?txid=8eefce8d264d723b6b8f3cf87bcb400a009d01c2771f94e5cc07af252851aa96&decode=1
       var data = assets.generateAssetCreateScript(
           decode('76a9140bd39e43ac5c47c34fea1a10f570dcdd5d7cdaa488ac'),
+          'ravencoin',
           'JAX',
           21000000000 * ONE_SAT,
           8,
@@ -100,6 +105,7 @@ main() {
       //76a914ebea3e0a3f5637999520e650941c875268fbb4b388acc03a72766e71085343414d434f494e00407a10f35a00000000011220ecb6d45965bcf81b78dfe6744c83030f148cf3be711b538a011323a349df6aae75
       var data = assets.generateAssetCreateScript(
           decode('76a914ebea3e0a3f5637999520e650941c875268fbb4b388ac'),
+          'ravencoin',
           'SCAMCOIN',
           1000000 * ONE_SAT,
           0,
@@ -118,6 +124,7 @@ main() {
       //76a91448fb91baa2f03a0abb7cdc853d7f6cbe716481e388acc03672766e7205504b42495400000000000000000801122093cd00f45e38dfd4ab071d94999ef24951f131385b3383cd12784e3e68955be075
       var data = assets.generateAssetReissueScript(
           decode('76a91448fb91baa2f03a0abb7cdc853d7f6cbe716481e388ac'),
+          'ravencoin',
           'PKBIT',
           0, //Dummy
           0,

@@ -18,15 +18,18 @@ import 'assets.dart';
 
 class TransactionBuilder {
   NetworkType network;
+  String chainName;
   int maximumFeeRate;
   List<Input> _inputs = [];
   Transaction? _tx;
   Map _prevTxSet = {};
 
-  TransactionBuilder(
-      {NetworkType this.network = mainnet,
-      int this.maximumFeeRate = 2500,
-      int version = 2}) {
+  TransactionBuilder({
+    this.network = mainnet,
+    this.chainName = 'ravencoin',
+    this.maximumFeeRate = 2500,
+    int version = 2,
+  }) {
     this._inputs = [];
     this._tx = Transaction();
     this._tx!.version = version;
@@ -128,7 +131,7 @@ class TransactionBuilder {
         network.burnAddresses.issueQualifier, network);
 
     assetScriptPubKey = generateAssetCreateScript(
-        assetScriptPubKey, assetName, value, 0, false, ipfsData);
+        assetScriptPubKey, chainName, assetName, value, 0, false, ipfsData);
 
     _tx!.addOutput(burnScriptPubKey, network.burnAmounts.issueQualifier);
     return _tx!.addOutput(assetScriptPubKey, 0);
@@ -163,10 +166,10 @@ class TransactionBuilder {
     final burnScriptPubKey = Address.addressToOutputScript(
         network.burnAddresses.issueSubQualifier, network);
 
-    ownerScriptPubKey =
-        generateAssetTransferScript(parentAssetTo, parentName, 100000000);
+    ownerScriptPubKey = generateAssetTransferScript(
+        parentAssetTo, chainName, parentName, 100000000);
     assetScriptPubKey = generateAssetCreateScript(
-        assetScriptPubKey, assetName, value, 0, false, ipfsData);
+        assetScriptPubKey, chainName, assetName, value, 0, false, ipfsData);
 
     _tx!.addOutput(burnScriptPubKey, network.burnAmounts.issueSubQualifier);
     _tx!.addOutput(ownerScriptPubKey, 0);
@@ -212,10 +215,10 @@ class TransactionBuilder {
         network.burnAddresses.issueRestricted, network);
     final verifierScriptPubKey = generateNullVerifierTag(
         (verifier == null || verifier.isEmpty) ? 'true' : verifier);
-    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, assetName,
-        value, divisibility, reissuable, ipfsData);
+    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, chainName,
+        assetName, value, divisibility, reissuable, ipfsData);
     ownerScriptPubKey = generateAssetTransferScript(
-        ownerScriptPubKey, assetName.substring(1) + '!', 100000000);
+        ownerScriptPubKey, chainName, assetName.substring(1) + '!', 100000000);
 
     _tx!.addOutput(burnScriptPubKey, network.burnAmounts.issueRestricted);
     _tx!.addOutput(ownerScriptPubKey, 0);
@@ -266,6 +269,7 @@ class TransactionBuilder {
         (verifier == null || verifier.isEmpty) ? 'true' : verifier);
     assetScriptPubKey = generateAssetReissueScript(
         assetScriptPubKey,
+        chainName,
         assetName,
         originalSats,
         satsAdded,
@@ -274,7 +278,7 @@ class TransactionBuilder {
         reissuable,
         ipfsData);
     ownerScriptPubKey = generateAssetTransferScript(
-        ownerScriptPubKey, assetName.substring(1) + '!', 100000000);
+        ownerScriptPubKey, chainName, assetName.substring(1) + '!', 100000000);
 
     _tx!.addOutput(burnScriptPubKey, network.burnAmounts.reissue);
     _tx!.addOutput(ownerScriptPubKey, 0);
@@ -315,6 +319,7 @@ class TransactionBuilder {
         generateNullQualifierTag(assetName, modifiedh160, tag);
     final qualifierScriptPubKey = generateAssetTransferScript(
         qualifierPubKey,
+        chainName,
         assetName[0] == '\$' ? assetName.substring(1) + '!' : assetName,
         100000000);
     final burnScriptPubKey =
@@ -359,10 +364,10 @@ class TransactionBuilder {
     if (_tx!.outs.isNotEmpty) {
       throw ArgumentError('This transaction already has outputs!');
     }
-    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, assetName,
-        value, divisibility, reissuable, ipfsData);
-    ownershipScriptPubKey =
-        generateAssetOwnershipScript(ownershipScriptPubKey, assetName);
+    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, chainName,
+        assetName, value, divisibility, reissuable, ipfsData);
+    ownershipScriptPubKey = generateAssetOwnershipScript(
+        ownershipScriptPubKey, chainName, assetName);
     final burnScriptPubKey =
         Address.addressToOutputScript(network.burnAddresses.issueMain, network);
 
@@ -413,12 +418,12 @@ class TransactionBuilder {
     if (_tx!.outs.isNotEmpty) {
       throw ArgumentError('This transaction already has outputs!');
     }
-    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, assetName,
-        value, divisibility, reissuable, ipfsData);
-    ownershipScriptPubKey =
-        generateAssetOwnershipScript(ownershipScriptPubKey, assetName);
+    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, chainName,
+        assetName, value, divisibility, reissuable, ipfsData);
+    ownershipScriptPubKey = generateAssetOwnershipScript(
+        ownershipScriptPubKey, chainName, assetName);
     parentOwnershipScriptPubKey = generateAssetTransferScript(
-        parentOwnershipScriptPubKey, ownerName + '!', 100000000);
+        parentOwnershipScriptPubKey, chainName, ownerName + '!', 100000000);
     final burnScriptPubKey =
         Address.addressToOutputScript(network.burnAddresses.issueSub, network);
 
@@ -460,10 +465,10 @@ class TransactionBuilder {
     }
     // Message channels cannot have associated IPFS data
     var isMessage = assetName.contains('~');
-    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, assetName,
-        100000000, 0, false, isMessage ? null : ipfsData);
+    assetScriptPubKey = generateAssetCreateScript(assetScriptPubKey, chainName,
+        assetName, 100000000, 0, false, isMessage ? null : ipfsData);
     parentOwnershipScriptPubKey = generateAssetTransferScript(
-        parentOwnershipScriptPubKey, ownerName + '!', 100000000);
+        parentOwnershipScriptPubKey, chainName, ownerName + '!', 100000000);
     final burnScriptPubKey = Address.addressToOutputScript(
         isMessage
             ? network.burnAddresses.issueMessage
@@ -514,6 +519,7 @@ class TransactionBuilder {
     }
     assetScriptPubKey = generateAssetReissueScript(
         assetScriptPubKey,
+        chainName,
         assetName,
         originalSats,
         satsAdded,
@@ -525,7 +531,7 @@ class TransactionBuilder {
     // Transfer an ownership asset with a value of 1
     // (Ownership assets have a virtual value of 100000000 sats).
     ownershipScriptPubKey = generateAssetTransferScript(
-        ownershipScriptPubKey, assetName + '!', 100000000);
+        ownershipScriptPubKey, chainName, assetName + '!', 100000000);
     final burnScriptPubKey =
         Address.addressToOutputScript(network.burnAddresses.reissue, network);
 
@@ -543,7 +549,8 @@ class TransactionBuilder {
       scriptPubKey = Address.addressToOutputScript(data, network);
       if (asset != null && value != null && scriptPubKey != null) {
         // Replace script with asset transfer and reset value to 0.
-        scriptPubKey = generateAssetTransferScript(scriptPubKey, asset, value,
+        scriptPubKey = generateAssetTransferScript(
+            scriptPubKey, chainName, asset, value,
             ipfsData: memo, expireEpoch: expiry);
         value = 0;
       }
@@ -570,7 +577,8 @@ class TransactionBuilder {
     }
 
     if (asset != null) {
-      scriptPubKey = generateAssetTransferScript(scriptPubKey, asset, value!,
+      scriptPubKey = generateAssetTransferScript(
+          scriptPubKey, chainName, asset, value!,
           ipfsData: memo, expireEpoch: expiry);
       value = 0;
     }

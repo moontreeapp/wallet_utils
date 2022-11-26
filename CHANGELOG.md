@@ -1,3 +1,7 @@
+## 3.0.2
+
+- added chainName to asset transactions
+
 ## 3.0.0
 
 - added support for Evrmore chain
