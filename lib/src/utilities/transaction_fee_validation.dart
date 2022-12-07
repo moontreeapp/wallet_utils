@@ -5,8 +5,8 @@ import 'package:convert/convert.dart';
 import 'package:tuple/tuple.dart';
 
 import '../transaction.dart';
-import './varuint.dart' as varuint;
-import './push_data.dart' as pushdata;
+import '../utils/varuint.dart' as varuint;
+import '../utils/push_data.dart' as pushdata;
 
 Tuple2<Map<String?, int>, int> parseSendAmountAndFeeFromSerializedTransaction(
     Map<String, Tuple2<String?, int>> outputsForVins,

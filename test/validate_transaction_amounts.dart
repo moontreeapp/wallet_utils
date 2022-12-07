@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:convert/convert.dart';
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart';
-import 'package:wallet_utils/src/utils/transaction_fee_validation.dart';
+import 'package:wallet_utils/src/utilities/transaction_fee_validation.dart';
 
 main() {
   group('name', () {
