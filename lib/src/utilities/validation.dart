@@ -14,6 +14,8 @@ const int maxFullNameLength = 32;
 const int maxNameLength = 30; // Without $, !
 const int maxChannelNameLength = 12;
 const int maxVerifierString = 80;
+const int satsPerCoin = 100000000;
+const int coinsCoinPerChain = 21000000000;
 
 const String evrAirdropTx =
     'c191c775b10d2af1fcccb4121095b2a018f1bee84fa5efb568fcddd383969262';
