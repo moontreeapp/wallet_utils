@@ -4,6 +4,10 @@ extension AmountToSatsExtension on double {
   int get asSats => (this * satsPerCoin).floor();
 }
 
+extension AmountToSatsForWholeNumbersExtension on int {
+  int get asSats => (this * satsPerCoin).floor();
+}
+
 extension SatsToAmountExtension on int {
   double get asCoin => this / satsPerCoin;
 }
