@@ -1,3 +1,4 @@
+export 'extensions.dart';
 export 'derivation.dart';
 export 'derive.dart';
 export 'transaction_fee_validation.dart';
