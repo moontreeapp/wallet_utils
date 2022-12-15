@@ -14,6 +14,7 @@ const int maxFullNameLength = 32;
 const int maxNameLength = 30; // Without $, !
 const int maxChannelNameLength = 12;
 const int maxVerifierString = 80;
+const double satCoinRatio = 0.00000001;
 const int satsPerCoin = 100000000;
 const int coinsPerChain = 21000000000;
 
