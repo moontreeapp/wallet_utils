@@ -1,7 +1,3 @@
-## 3.0.8
-
-- added chains to utilities in support of the server and frontend
-
 ## 3.0.2
 
 - added chainName to asset transactions
