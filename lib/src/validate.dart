@@ -72,7 +72,7 @@ bool goodPattern(String asset) {
     if (asset.split('#').length != 2) return false;
     var parts = getParts(asset, '#');
     return validate.main(parts['head']) &&
-        validate.main(
+        validate.nft(
           parts['tail'],
           regex: RegExp(NFT_REGEX),
         );
@@ -137,6 +137,12 @@ class validate {
 
   static bool subs(List subs) =>
       [for (var s in subs) sub(s)].every((bool item) => item);
+
+  /// is a valid nft: DEGEN_SMOKERS_CLUB#D.S.C._2781
+  /// so we have to avoid the punctuation check on nfts
+  static bool nft(String asset, {RegExp? regex}) =>
+      !RAVEN_NAMES.contains(asset) &&
+      asset.contains(regex ?? RegExp(r'^[A-Z0-9]{1}[A-Z0-9_.]{2,}$'));
 
   static bool punc(String asset) =>
       !asset.contains('..') &&

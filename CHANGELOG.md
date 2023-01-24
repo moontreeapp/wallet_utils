@@ -1,3 +1,9 @@
+## 3.0.10
+
+- added some validation modules
+- refactored FeeRate
+- patch for nft validation
+
 ## 3.0.2
 
 - added chainName to asset transactions
