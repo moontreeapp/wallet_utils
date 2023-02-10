@@ -1,3 +1,7 @@
+## 3.0.11
+
+- added address utilities
+
 ## 3.0.10
 
 - added some validation modules
