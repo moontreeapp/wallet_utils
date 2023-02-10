@@ -1,3 +1,4 @@
+export 'address.dart';
 export 'extensions.dart';
 export 'derivation.dart';
 export 'derive.dart';
