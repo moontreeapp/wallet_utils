@@ -613,6 +613,77 @@ class TransactionBuilder {
         Input(sequence: sequence, prevOutScript: prevOutScript, value: value));
   }
 
+  /// TODO: WIP sign rewrite
+  signRaw({
+    required int vin,
+    required ECPair keyPair,
+    int? hashType,
+    Uint8List? prevOutScriptOverride,
+  }) {
+    if (keyPair.network.toString().compareTo(network.toString()) != 0)
+      throw ArgumentError('Inconsistent network');
+    if (vin >= _inputs.length) throw ArgumentError('No input at index: $vin');
+    hashType = hashType ?? SIGHASH_ALL;
+    if (this._needsOutputs(hashType))
+      throw ArgumentError('Transaction needs outputs');
+    final input = _inputs[vin];
+    final ourPubKey = keyPair.publicKey;
+    if (!_canSign(input)) {
+      if (input.prevOutScript != null && input.prevOutType != null) {
+        var type = classifyOutput(input.prevOutScript!);
+        if (type == SCRIPT_TYPES['P2WPKH']) {
+          input.prevOutType = SCRIPT_TYPES['P2WPKH'];
+          input.hasWitness = true;
+          input.signatures = [null];
+          input.pubkeys = [ourPubKey];
+          input.signScript =
+              P2PKH(data: PaymentData(pubkey: ourPubKey), network: this.network)
+                  .data
+                  .output;
+        } else {
+          // DRY CODE
+          Uint8List? prevOutScript =
+              prevOutScriptOverride ?? pubkeyToOutputScript(ourPubKey);
+          input.prevOutType = SCRIPT_TYPES['P2PKH'];
+          input.signatures = [null];
+          input.pubkeys = [ourPubKey];
+          input.signScript = prevOutScript;
+        }
+      } else {
+        Uint8List? prevOutScript =
+            prevOutScriptOverride ?? pubkeyToOutputScript(ourPubKey);
+        input.prevOutType = SCRIPT_TYPES['P2PKH'];
+        input.signatures = [null];
+        input.pubkeys = [ourPubKey];
+        input.signScript = prevOutScript;
+      }
+    }
+    var signatureHash;
+    if (input.hasWitness) {
+      signatureHash = this
+          ._tx!
+          .hashForWitnessV0(vin, input.signScript!, input.value!, hashType);
+    } else {
+      signatureHash =
+          this._tx!.hashForSignature(vin, input.signScript, hashType);
+    }
+
+    // enforce in order signing of public keys
+    var signed = false;
+    for (var i = 0; i < input.pubkeys!.length; i++) {
+      if (HEX.encode(ourPubKey!).compareTo(HEX.encode(input.pubkeys![i]!)) !=
+          0) {
+        continue;
+      }
+      if (input.signatures![i] != null)
+        throw ArgumentError('Signature already exists');
+      final signature = keyPair.sign(signatureHash);
+      input.signatures![i] = bscript.encodeSignature(signature, hashType);
+      signed = true;
+    }
+    if (!signed) throw ArgumentError('Key pair cannot sign for this input');
+  }
+
   sign({
     required int vin,
     required ECPair keyPair,
