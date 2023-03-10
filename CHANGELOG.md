@@ -1,3 +1,7 @@
+## 3.0.12
+
+- added TransactionBuilder.fromRawInfo()
+
 ## 3.0.11
 
 - added address utilities
