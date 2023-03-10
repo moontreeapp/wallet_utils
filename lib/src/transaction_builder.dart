@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:bs58check/bs58check.dart' as bs58check;
+import 'package:collection/collection.dart';
 import 'package:hex/hex.dart';
 import 'package:wallet_utils/src/utils/constants/op.dart';
 
@@ -36,6 +37,38 @@ class TransactionBuilder {
   }
 
   List<Input> get inputs => _inputs;
+
+  factory TransactionBuilder.fromRawInfo(
+      String rawHex,
+      Iterable<Uint8List?> prevOutScripts,
+      Iterable<String?> prevOutTypes,
+      NetworkType network) {
+    final tx = Transaction.fromHex(rawHex);
+    final txb = TransactionBuilder(network: network);
+    txb.setVersion(tx.version);
+    txb.setLockTime(tx.locktime);
+
+    tx.outs.forEach((txOut) {
+      txb.addOutput(txOut.script, txOut.value);
+    });
+
+    IterableZip([tx.ins, prevOutScripts, prevOutTypes].cast()).forEach((input) {
+      final Input txIn = input[0] as Input;
+      final Uint8List? prevOutScript = input[1] as Uint8List?;
+      final String? prevOutType = input[2] as String?;
+
+      txb._addInputUnsafe(
+          txIn.hash!,
+          txIn.index,
+          Input(
+              sequence: txIn.sequence,
+              witness: txIn.witness,
+              prevOutScript: prevOutScript,
+              prevOutType: prevOutType));
+    });
+
+    return txb;
+  }
 
   factory TransactionBuilder.fromTransaction(Transaction transaction,
       [NetworkType network = mainnet]) {
@@ -901,7 +934,7 @@ class TransactionBuilder {
         input.pubkeys!.length > 0;
   }
 
-  _addInputUnsafe(Uint8List hash, int? vout, Input options) {
+  _addInputUnsafe(Uint8List hash, int? vout, Input options, {String? type}) {
     String txHash = HEX.encode(hash);
     Input input;
     if (isCoinbaseHash(hash)) {
@@ -911,8 +944,8 @@ class TransactionBuilder {
     if (_prevTxSet[prevTxOut] != null)
       throw ArgumentError('Duplicate TxOut: ' + prevTxOut);
     if (options.script != null) {
-      input =
-          Input.expandInput(options.script, options.witness ?? EMPTY_WITNESS);
+      input = Input.expandInput(
+          options.script, options.witness ?? EMPTY_WITNESS, type);
     } else {
       input = Input();
     }
@@ -926,7 +959,7 @@ class TransactionBuilder {
         }
       }
       input.prevOutScript = options.prevOutScript;
-      input.prevOutType = classifyOutput(options.prevOutScript!);
+      input.prevOutType = type ?? classifyOutput(options.prevOutScript!);
     }
     int vin = _tx!.addInput(hash, vout, options.sequence, options.script);
     _inputs.add(input);
