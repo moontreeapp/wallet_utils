@@ -1,3 +1,5 @@
+import 'package:wallet_utils/src/utilities/validation.dart' show satsPerCoin;
+
 /// calculates fees for transactions of various types
 
 const double _cheapFee = 1.001;
@@ -16,10 +18,11 @@ class FeeRate {
 
   double get rate => rateOverride ?? (hardRelayFee * modifier);
 
-  int get minimumFee => (0.01 * satsPer).floor(); // relevance?
-
-  /// 100,000,000 sats per RVN
-  static int get satsPer => 100000000;
+  /// relevance? we were able to send with fees 4x lower than this before.
+  /// I think it's more of a guideline than a minimum fee since we've
+  /// successfully ignored it until server2. maybe it's retail, the fee that
+  /// suckers pay
+  static int get minimumFee => (0.01 * satsPerCoin).floor();
 
   /// 0.01 RVN = 1,000,000 sats
   /// example: https://rvn.cryptoscope.io/tx/?txid=3a880d09258075635e1565c06dce3f0091a67da987a63140a60f1d8f80a6625a
