@@ -22,5 +22,6 @@ String h160ToAddress({required Uint8List h160, required int addressType}) {
   return base58.encode(Uint8List.fromList(x));
 }
 
-Uint8List hash160(String x) => RIPEMD160Digest()
-    .process(SHA256Digest().process(Uint8List.fromList(utf8.encode(x))));
+Uint8List hash160(Uint8List x) {
+  return RIPEMD160Digest().process(SHA256Digest().process(x));
+}

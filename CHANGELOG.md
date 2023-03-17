@@ -1,3 +1,11 @@
+## 3.0.13
+
+- fixed h160 conversion
+
+## 3.0.12
+
+- added TransactionBuilder.fromRawInfo()
+
 ## 3.0.11
 
 - added address utilities
