@@ -1,3 +1,7 @@
+## 3.0.15
+
+- additional sign method
+
 ## 3.0.13
 
 - fixed h160 conversion
