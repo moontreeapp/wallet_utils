@@ -95,6 +95,7 @@ class P2PKH {
               .buffer
               .asUint8List()
         ]));
+        script.add(OPS['OP_DROP']);
       }
       data.output = bscript.compile(script);
     }
