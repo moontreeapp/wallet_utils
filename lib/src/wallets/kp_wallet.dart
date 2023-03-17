@@ -27,7 +27,11 @@ class KPWallet extends WalletBase {
   factory KPWallet.random([NetworkType network = mainnet]) {
     final _keyPair = ECPair.makeRandom(network: network);
     final _p2pkh = new P2PKH(
-        data: new PaymentData(pubkey: _keyPair.publicKey), network: network);
+        data: new PaymentData(pubkey: _keyPair.publicKey),
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+        network: network);
     return KPWallet(_keyPair, _p2pkh, network);
   }
 
@@ -35,6 +39,9 @@ class KPWallet extends WalletBase {
     final _keyPair = ECPair.fromWIF(wif, network);
     final _p2pkh = new P2PKH(
         data: new PaymentData(pubkey: _keyPair.publicKey),
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
         network: _keyPair.network);
     return KPWallet(_keyPair, _p2pkh, _keyPair.network);
   }

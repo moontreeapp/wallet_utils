@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bip32/src/utils/ecurve.dart' show isPoint;
@@ -10,10 +11,17 @@ import '../utils/script.dart' as bscript;
 import '../utils/constants/op.dart';
 
 class P2PKH {
-  late PaymentData data;
-  late NetworkType network;
-  P2PKH({required data, this.network = mainnet}) {
-    this.data = data;
+  PaymentData data;
+  NetworkType network;
+  String? asset;
+  int? assetAmount;
+  Uint8List assetLiteral;
+  P2PKH(
+      {required this.data,
+      required this.asset,
+      required this.assetAmount,
+      required this.assetLiteral,
+      this.network = mainnet}) {
     _init();
   }
   _init() {
@@ -69,13 +77,26 @@ class P2PKH {
       data.address = bs58check.encode(payload);
     }
     if (data.output == null) {
-      data.output = bscript.compile([
+      final script = [
         OPS['OP_DUP'],
         OPS['OP_HASH160'],
         data.hash,
         OPS['OP_EQUALVERIFY'],
         OPS['OP_CHECKSIG']
-      ]);
+      ];
+      if (asset != null) {
+        script.add(OPS['OP_RVN_ASSET']);
+        script.add(Uint8List.fromList([
+          ...assetLiteral,
+          0x74,
+          asset!.length,
+          ...utf8.encode(asset!),
+          ...(ByteData(8)..setUint64(0, assetAmount!, Endian.little))
+              .buffer
+              .asUint8List()
+        ]));
+      }
+      data.output = bscript.compile(script);
     }
   }
 

@@ -54,7 +54,11 @@ class HDWallet extends WalletBase {
   HDWallet derivePath(String path) {
     final bip32 = _bip32.derivePath(path);
     final p2pkh = new P2PKH(
-        data: new PaymentData(pubkey: bip32.publicKey), network: network);
+        data: new PaymentData(pubkey: bip32.publicKey),
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+        network: network);
     return HDWallet(bip32: bip32, p2pkh: p2pkh, network: network);
   }
 
@@ -63,14 +67,22 @@ class HDWallet extends WalletBase {
     final bip32 = pathBip32.values.first;
     final subPath = pathBip32.keys.first;
     final p2pkh = new P2PKH(
-        data: new PaymentData(pubkey: bip32.publicKey), network: network);
+        data: new PaymentData(pubkey: bip32.publicKey),
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+        network: network);
     return {subPath: HDWallet(bip32: bip32, p2pkh: p2pkh, network: network)};
   }
 
   HDWallet derive(int index) {
     final bip32 = _bip32.derive(index);
     final p2pkh = new P2PKH(
-        data: new PaymentData(pubkey: bip32.publicKey), network: network);
+        data: new PaymentData(pubkey: bip32.publicKey),
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+        network: network);
     return HDWallet(bip32: bip32, p2pkh: p2pkh, network: network);
   }
 
@@ -82,7 +94,11 @@ class HDWallet extends WalletBase {
                 public: network.bip32.public, private: network.bip32.private),
             wif: network.wif));
     final p2pkh = new P2PKH(
-        data: new PaymentData(pubkey: wallet.publicKey), network: network);
+        data: new PaymentData(pubkey: wallet.publicKey),
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+        network: network);
     return HDWallet(bip32: wallet, p2pkh: p2pkh, network: network, seed: seed);
   }
 
@@ -94,7 +110,11 @@ class HDWallet extends WalletBase {
                 public: network.bip32.public, private: network.bip32.private),
             wif: network.wif));
     final p2pkh = new P2PKH(
-        data: new PaymentData(pubkey: wallet.publicKey), network: network);
+        data: new PaymentData(pubkey: wallet.publicKey),
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+        network: network);
     return HDWallet(bip32: wallet, p2pkh: p2pkh, network: network, seed: null);
   }
 

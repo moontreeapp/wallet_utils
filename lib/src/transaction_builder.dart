@@ -647,12 +647,14 @@ class TransactionBuilder {
   }
 
   /// TODO: WIP sign rewrite
-  signRaw({
-    required int vin,
-    required ECPair keyPair,
-    int? hashType,
-    Uint8List? prevOutScriptOverride,
-  }) {
+  signRaw(
+      {required int vin,
+      required ECPair keyPair,
+      int? hashType,
+      Uint8List? prevOutScriptOverride,
+      String? asset,
+      int? assetAmount,
+      required Uint8List assetLiteral}) {
     if (keyPair.network.toString().compareTo(network.toString()) != 0)
       throw ArgumentError('Inconsistent network');
     if (vin >= _inputs.length) throw ArgumentError('No input at index: $vin');
@@ -665,6 +667,8 @@ class TransactionBuilder {
       if (input.prevOutScript != null && input.prevOutType != null) {
         var type = classifyOutput(input.prevOutScript!);
         if (type == SCRIPT_TYPES['P2WPKH']) {
+          throw Exception('not implemented');
+          /*
           input.prevOutType = SCRIPT_TYPES['P2WPKH'];
           input.hasWitness = true;
           input.signatures = [null];
@@ -673,18 +677,19 @@ class TransactionBuilder {
               P2PKH(data: PaymentData(pubkey: ourPubKey), network: this.network)
                   .data
                   .output;
+          */
         } else {
           // DRY CODE
-          Uint8List? prevOutScript =
-              prevOutScriptOverride ?? pubkeyToOutputScript(ourPubKey);
+          Uint8List? prevOutScript = prevOutScriptOverride ??
+              pubkeyToOutputScript(ourPubKey, asset, assetAmount, assetLiteral);
           input.prevOutType = SCRIPT_TYPES['P2PKH'];
           input.signatures = [null];
           input.pubkeys = [ourPubKey];
           input.signScript = prevOutScript;
         }
       } else {
-        Uint8List? prevOutScript =
-            prevOutScriptOverride ?? pubkeyToOutputScript(ourPubKey);
+        Uint8List? prevOutScript = prevOutScriptOverride ??
+            pubkeyToOutputScript(ourPubKey, asset, assetAmount, assetLiteral);
         input.prevOutType = SCRIPT_TYPES['P2PKH'];
         input.signatures = [null];
         input.pubkeys = [ourPubKey];
@@ -717,15 +722,17 @@ class TransactionBuilder {
     if (!signed) throw ArgumentError('Key pair cannot sign for this input');
   }
 
-  sign({
-    required int vin,
-    required ECPair keyPair,
-    Uint8List? redeemScript,
-    int? witnessValue,
-    Uint8List? witnessScript,
-    int? hashType,
-    Uint8List? prevOutScriptOverride,
-  }) {
+  /*
+  sign(
+      {required int vin,
+      required ECPair keyPair,
+      Uint8List? redeemScript,
+      int? witnessValue,
+      Uint8List? witnessScript,
+      int? hashType,
+      Uint8List? prevOutScriptOverride,
+      String? asset,
+      Uint8List? assetLiteral}) {
     if (keyPair.network.toString().compareTo(network.toString()) != 0)
       throw ArgumentError('Inconsistent network');
     if (vin >= _inputs.length) throw ArgumentError('No input at index: $vin');
@@ -753,6 +760,7 @@ class TransactionBuilder {
       if (input.prevOutScript != null && input.prevOutType != null) {
         var type = classifyOutput(input.prevOutScript!);
         if (type == SCRIPT_TYPES['P2WPKH']) {
+          throw Exception('not implemented');
           input.prevOutType = SCRIPT_TYPES['P2WPKH'];
           input.hasWitness = true;
           input.signatures = [null];
@@ -781,6 +789,7 @@ class TransactionBuilder {
     }
     var signatureHash;
     if (input.hasWitness) {
+      throw Exception('not implemented');
       signatureHash = this
           ._tx!
           .hashForWitnessV0(vin, input.signScript!, input.value!, hashType);
@@ -804,6 +813,7 @@ class TransactionBuilder {
     }
     if (!signed) throw ArgumentError('Key pair cannot sign for this input');
   }
+  */
 
   Transaction build() {
     return _build(false);
@@ -837,6 +847,9 @@ class TransactionBuilder {
               data: PaymentData(
                   pubkey: _inputs[i].pubkeys![0],
                   signature: _inputs[i].signatures![0]),
+              asset: null,
+              assetAmount: null,
+              assetLiteral: Uint8List(0),
               network: network);
           tx.setInputScript(i, payment.data.input);
           tx.setWitness(i, payment.data.witness);
@@ -976,8 +989,14 @@ class TransactionBuilder {
   Map get prevTxSet => _prevTxSet;
 }
 
-Uint8List? pubkeyToOutputScript(Uint8List? pubkey,
+Uint8List? pubkeyToOutputScript(
+    Uint8List? pubkey, String? asset, int? assetAmount, Uint8List assetLiteral,
     [NetworkType network = mainnet]) {
-  P2PKH p2pkh = P2PKH(data: PaymentData(pubkey: pubkey), network: network);
+  P2PKH p2pkh = P2PKH(
+      data: PaymentData(pubkey: pubkey),
+      asset: asset,
+      assetAmount: assetAmount,
+      assetLiteral: assetLiteral,
+      network: network);
   return p2pkh.data.output;
 }

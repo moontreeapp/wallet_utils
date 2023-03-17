@@ -16,6 +16,7 @@ import '../lib/src/payments/p2pkh.dart';
 
 final NETWORKS = {'testnet': bitcoinTestnet, 'bitcoin': bitcoinMainnet};
 
+/*
 constructSign(f, TransactionBuilder txb) {
   final inputs = f['inputs'] as List<dynamic>;
   for (var i = 0; i < inputs.length; i++) {
@@ -372,3 +373,4 @@ main() {
     });
   });
 }
+*/

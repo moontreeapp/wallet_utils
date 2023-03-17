@@ -29,10 +29,12 @@ main() {
     test('can generate a random address', () {
       final keyPair = ECPair.makeRandom(rng: rng);
       final address = new P2PKH(
-              data: new PaymentData(pubkey: keyPair.publicKey),
-              network: NETWORKS.bitcoinMainnet)
-          .data
-          .address;
+        data: new PaymentData(pubkey: keyPair.publicKey),
+        network: NETWORKS.bitcoinMainnet,
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+      ).data.address;
       expect(address, '1F5VhMHukdnUES9kfXqzPzMeF1GPHKiF64');
     });
     test('can generate an address from a SHA256 hash', () {
@@ -40,10 +42,12 @@ main() {
           .process(utf8.encode('correct horse battery staple') as Uint8List);
       final keyPair = ECPair.fromPrivateKey(hash);
       final address = new P2PKH(
-              data: new PaymentData(pubkey: keyPair.publicKey),
-              network: NETWORKS.bitcoinMainnet)
-          .data
-          .address;
+        data: new PaymentData(pubkey: keyPair.publicKey),
+        network: NETWORKS.bitcoinMainnet,
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+      ).data.address;
       expect(address, '1C7zdTfnkzmr13HfA2vNm5SJYRK6nEKyq8');
     });
     test('can import an address via WIF', () {
@@ -51,10 +55,12 @@ main() {
           'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct',
           NETWORKS.bitcoinMainnet);
       final address = new P2PKH(
-              data: new PaymentData(pubkey: keyPair.publicKey),
-              network: NETWORKS.bitcoinMainnet)
-          .data
-          .address;
+        data: new PaymentData(pubkey: keyPair.publicKey),
+        network: NETWORKS.bitcoinMainnet,
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+      ).data.address;
       expect(address, '19AAjaTUbRjQCMuVczepkoPswiZRhjtg31');
     });
     test('can generate a Testnet address', () {
@@ -62,10 +68,12 @@ main() {
       final keyPair = ECPair.makeRandom(network: testnet, rng: rng);
       final wif = keyPair.toWIF();
       final address = new P2PKH(
-              data: new PaymentData(pubkey: keyPair.publicKey),
-              network: testnet)
-          .data
-          .address;
+        data: new PaymentData(pubkey: keyPair.publicKey),
+        network: testnet,
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+      ).data.address;
       expect(address, 'mubSzQNtZfDj1YdNP6pNDuZy6zs6GDn61L');
       expect(wif, 'cRgnQe9MUu1JznntrLaoQpB476M8PURvXVQB5R2eqms5tXnzNsrr');
     });
@@ -73,10 +81,12 @@ main() {
       final keyPair = ECPair.makeRandom(network: litecoin, rng: rng);
       final wif = keyPair.toWIF();
       final address = new P2PKH(
-              data: new PaymentData(pubkey: keyPair.publicKey),
-              network: litecoin)
-          .data
-          .address;
+        data: new PaymentData(pubkey: keyPair.publicKey),
+        network: litecoin,
+        asset: null,
+        assetAmount: null,
+        assetLiteral: Uint8List(0),
+      ).data.address;
       expect(address, 'LZJSxZbjqJ2XVEquqfqHg1RQTDdfST5PTn');
       expect(wif, 'T7A4PUSgTDHecBxW1ZiYFrDNRih2o7M8Gf9xpoCgudPF9gDiNvuS');
     });

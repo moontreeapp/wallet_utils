@@ -33,8 +33,12 @@ class Address {
     if (decodeBase58 != null) {
       if (decodeBase58[0] != network.pubKeyHash)
         throw new ArgumentError('Invalid version or Network mismatch');
-      P2PKH p2pkh =
-          new P2PKH(data: new PaymentData(address: address), network: network);
+      P2PKH p2pkh = new P2PKH(
+          data: new PaymentData(address: address),
+          asset: null,
+          assetAmount: null,
+          assetLiteral: Uint8List(0),
+          network: network);
       return p2pkh.data.output;
     } else {
       try {

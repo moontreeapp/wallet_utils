@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:test/test.dart';
 
 import '../../lib/src/ecpair.dart';
@@ -18,7 +20,7 @@ main() {
     txb.addOutput('1cMh228HTCiwS8ZsaakH8A8wze1JR5ZsP', 12000);
     // (in)15000 - (out)12000 = (fee)3000, this is the miner fee
 
-    txb.sign(vin: 0, keyPair: alice);
+    txb.signRaw(vin: 0, keyPair: alice, assetLiteral: Uint8List(0));
 
     // prepare for broadcast to the Bitcoin network, see 'can broadcast a Transaction' below
     expect(txb.build().toHex(),

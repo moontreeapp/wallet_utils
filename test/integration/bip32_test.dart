@@ -98,7 +98,11 @@ void main() {
 }
 
 String? getAddress(node, [network = bitcoinMainnet]) {
-  return P2PKH(data: new PaymentData(pubkey: node.publicKey), network: network)
-      .data
-      .address;
+  return P2PKH(
+    data: new PaymentData(pubkey: node.publicKey),
+    network: network,
+    asset: null,
+    assetAmount: null,
+    assetLiteral: Uint8List(0),
+  ).data.address;
 }

@@ -592,7 +592,11 @@ class Input {
           pubkeys: [p2wpkh.data.pubkey],
           signatures: [p2wpkh.data.signature]);
     } else if (type == SCRIPT_TYPES['P2PKH']) {
-      P2PKH p2pkh = new P2PKH(data: new PaymentData(input: scriptSig));
+      P2PKH p2pkh = new P2PKH(
+          data: new PaymentData(input: scriptSig),
+          asset: null,
+          assetAmount: null,
+          assetLiteral: Uint8List(0));
       return new Input(
           prevOutScript: p2pkh.data.output,
           prevOutType: SCRIPT_TYPES['P2PKH'],
@@ -665,8 +669,13 @@ class Output {
       if (wpkh1 != wpkh2) throw ArgumentError('Hash mismatch!');
       return new Output(pubkeys: [ourPubKey], signatures: [null]);
     } else if (type == SCRIPT_TYPES['P2PKH']) {
-      Uint8List? pkh1 =
-          new P2PKH(data: new PaymentData(output: script)).data.hash;
+      Uint8List? pkh1 = new P2PKH(
+              data: new PaymentData(output: script),
+              asset: null,
+              assetAmount: null,
+              assetLiteral: Uint8List(0))
+          .data
+          .hash;
       Uint8List pkh2 = bcrypto.hash160(ourPubKey);
       if (pkh1 != pkh2) throw ArgumentError('Hash mismatch!');
       return new Output(pubkeys: [ourPubKey], signatures: [null]);
