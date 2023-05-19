@@ -1,6 +1,6 @@
 name: wallet_utils
 description: A dart ravencoin transaction signing library.
-version: 3.1.0
+version: 3.1.1
 homepage: https://github.com/moontreeapp/wallet_utils
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
   bip39: ^1.0.6
   bs58check: ^1.0.2
   bs58: ^1.0.2
-  collection: ^1.17.2
+  collection: ^1.17.1
   hex: ^0.2.0
   meta: ^1.8.0
   pointycastle: ^3.6.2
