@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'dart:convert';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:pointycastle/digests/ripemd160.dart';
 import 'package:bs58/bs58.dart';

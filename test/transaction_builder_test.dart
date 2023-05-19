@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -5,7 +6,6 @@ import 'dart:typed_data';
 import 'package:test/test.dart';
 import 'package:hex/hex.dart';
 
-import '../lib/src/models/networks.dart';
 import '../lib/src/ecpair.dart';
 import '../lib/src/transaction.dart';
 import '../lib/src/address.dart';
@@ -13,6 +13,8 @@ import '../lib/src/transaction_builder.dart';
 import '../lib/src/utils/script.dart' as bscript;
 import '../lib/src/payments/index.dart' show PaymentData;
 import '../lib/src/payments/p2pkh.dart';
+*/
+import '../lib/src/models/networks.dart';
 
 final NETWORKS = {'testnet': bitcoinTestnet, 'bitcoin': bitcoinMainnet};
 
