@@ -699,9 +699,11 @@ class TransactionBuilder {
     var signatureHash;
     if (input.hasWitness) {
       throw Exception('not implemented');
+      /* comment to hide dead code
       signatureHash = this
           ._tx!
           .hashForWitnessV0(vin, input.signScript!, input.value!, hashType);
+          */
     } else {
       signatureHash =
           this._tx!.hashForSignature(vin, input.signScript, hashType);
