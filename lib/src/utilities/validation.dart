@@ -42,6 +42,16 @@ final RegExp childAssets = RegExp(r'#|/|~');
 final RegExp ravenNames =
     RegExp(r'^RVN$|^RAVEN$|^RAVENCOIN$|^#RVN$|^#RAVEN$|^#RAVENCOIN$');
 
+final RegExp evrmoreNames = RegExp(
+    r"^EVR$|^EVER$|^EVRMORE$|^EVERMORE$|^EVRMORECOIN$|^EVERMORECOIN$|"
+    r"^EVRS$|^EVERS$|^EVRMORES$|^EVERMORES$|^EVRMORECOINS$|^EVERMORECOINS$|"
+    r"^#EVR$|^#EVER$|^#EVRMORE$|^#EVERMORE$|^#EVRMORECOIN$|^#EVERMORECOIN$|"
+    r"^#EVRS$|^#EVERS$|^#EVRMORES$|^#EVERMORES$|^#EVRMORECOINS$|^#EVERMORECOINS$|"
+    r"^RVN$|^RAVEN$|^RAVENCOIN$|"
+    r"^RVNS$|^RAVENS$|^RAVENCOINS$|"
+    r"^#RVN$|^#RAVEN$|^#RAVENCOIN$|"
+    r"^#RVNS$|^#RAVENS$|^#RAVENCOINS$");
+
 /// todo identify a ipfs hash correctly...
 // https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes32/17112#17112
 // looks like we just need to consider hex strings or something...

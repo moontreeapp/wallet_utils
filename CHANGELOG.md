@@ -1,3 +1,7 @@
+## 3.1.2
+
+- added evrmoreNames
+
 ## 3.0.15
 
 - additional sign method
