@@ -1,3 +1,7 @@
+## 3.1.3
+
+- added ability to recognized version 1 of ipfs cids
+
 ## 3.1.2
 
 - added evrmoreNames
