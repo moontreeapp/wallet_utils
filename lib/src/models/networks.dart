@@ -174,7 +174,7 @@ const testnet = NetworkType(
 
 // Evrmore Mainnet
 const evrmoreMainnet = NetworkType(
-    messagePrefix: '\x18Evrmore Signed Message:\n', // check
+    messagePrefix: 'Evrmore Signed Message:\n', // check
     bech32: 'ev', // placeholder
     bip32: Bip32Type(public: 0x0488b21e, private: 0x0488ade4), // same
     pubKeyHash: 33, // updated
