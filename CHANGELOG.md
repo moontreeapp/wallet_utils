@@ -1,3 +1,8 @@
+## 3.1.4
+
+- Updated Evrmore mainnet network message prefix
+- Updated dependencies
+
 ## 3.1.3
 
 - added ability to recognized version 1 of ipfs cids
